@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">رتّل - تعليم القرآن</string>
+    <string name="tab_learn">التلاوة والتكرار</string>
+    <string name="tab_practice">تصحيح التلاوة</string>
+    <string name="tab_tajweed">أحكام التجويد</string>
+    <string name="tab_stats">إنجازاتي</string>
+    <string name="recite_instruction">اضغط على زر التسجيل وتلُ الآية بصوت واضح ليقوم المعلم الذكي بتصحيحها</string>
+    <string name="start_recording">بدء التسجيل</string>
+    <string name="stop_recording">إيقاف وتقييم</string>
+    <string name="repeat_count_label">عدد مرات التكرار:</string>
+    <string name="repeat_delay_label">الفاصل الزمني للترديد:</string>
+    <string name="playback_speed">سرعة التلاوة:</string>
+    <string name="evaluating_recitation">جاري تحليل التلاوة ومخارج الحروف والتجويد…</string>
+    <string name="recitation_correction_title">تقرير تصحيح التلاوة</string>
+    <string name="accuracy_score">درجة الدقة:</string>
+    <string name="tajweed_feedback">ملاحظات التجويد والمخارج:</string>
+</resources>
