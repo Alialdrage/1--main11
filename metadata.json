@@ -1,0 +1,6 @@
+{
+  "name": "رتّل - تعليم القرآن",
+  "description": "تطبيق متكامل لتعليم قراءة وتلاوة القرآن الكريم للمبتدئين مع خاصية التكرار الصوتي وتصحيح التلاوة وأحكام التجويد التفاعلية",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
