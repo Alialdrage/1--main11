@@ -30,7 +30,6 @@ jobs:
       - name: Build app
         shell: bash
         run: |
-          # البحث عن المجلد الذي يحتوي على ملف pubspec.yaml والدخول إليه تلقائياً
           PUBSPEC_PATH=$(find . -name "pubspec.yaml" -not -path "*/.*" | head -n 1)
           
           if [ -n "$PUBSPEC_PATH" ]; then
