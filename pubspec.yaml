@@ -1,22 +1,59 @@
-name: my_app
-description: A new Flutter project.
+name: Build Android APK
 
-publish_to: 'none'
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+  workflow_dispatch:
 
-version: 1.0.0+1
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-environment:
-  sdk: '^3.5.0'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-dependencies:
-  flutter:
-    sdk: flutter
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.4'
 
-  flutter_lints: ^4.0.0
+      - name: Build app
+        shell: bash
+        run: |
+          # البحث عن المجلد الذي يحتوي على ملف pubspec.yaml والدخول إليه تلقائياً
+          PUBSPEC_PATH=$(find . -name "pubspec.yaml" -not -path "*/.*" | head -n 1)
+          
+          if [ -n "$PUBSPEC_PATH" ]; then
+            PROJECT_DIR=$(dirname "$PUBSPEC_PATH")
+            echo "Found Flutter project in directory: $PROJECT_DIR"
+            cd "$PROJECT_DIR"
+            
+            echo "Running Flutter Pub Get..."
+            flutter pub get
+            
+            echo "Building APK..."
+            flutter build apk --release
+          else
+            echo "Error: No pubspec.yaml found anywhere in this repository."
+            exit 1
+          fi
 
-flutter:
-  uses-material-design: true
+      - name: Upload APK artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: |
+            **/build/app/outputs/flutter-apk/*.apk
+            **/app/build/outputs/apk/release/*.apk
+            
