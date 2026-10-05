@@ -1,14 +1,9 @@
-name: Build Android APK
-
 on:
   push:
     branches: ["main", "master"]
   pull_request:
     branches: ["main", "master"]
   workflow_dispatch:
-  environment:
-  sdk: '^3.5.0'
-  
 
 jobs:
   build:
@@ -33,12 +28,12 @@ jobs:
       - name: Build app
         shell: bash
         run: |
-          if [ -f gradlew ]; then
-            chmod +x gradlew
-            ./gradlew assembleRelease --stacktrace
-          elif [ -f pubspec.yaml ]; then
+          if [ -f pubspec.yaml ]; then
             flutter pub get
             flutter build apk --release
+          elif [ -f gradlew ]; then
+            chmod +x gradlew
+            ./gradlew assembleRelease --stacktrace
           else
             echo "No Android/Flutter project files were found in this repository."
             echo "Expected either gradlew or pubspec.yaml in the repository root."
