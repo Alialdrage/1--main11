@@ -30,12 +30,20 @@ jobs:
       - name: Build app
         shell: bash
         run: |
-          if [ -f gradlew ]; then
-            chmod +x gradlew
-            ./gradlew assembleRelease --stacktrace
-          elif [ -f pubspec.yaml ]; then
+          # التحقق من وجود ملف pubspec.yaml أولاً وإصلاحه تلقائياً إذا كان يفتقد الـ SDK
+          if [ -f pubspec.yaml ]; then
+            if ! grep -q "environment:" pubspec.yaml; then
+              echo -e "\nenvironment:\n  sdk: '^3.5.0'" >> pubspec.yaml
+              echo "Added missing SDK constraint to pubspec.yaml"
+            fi
+            
+            echo "Running Flutter Build..."
             flutter pub get
             flutter build apk --release
+          elif [ -f gradlew ]; then
+            echo "Running Native Android Build..."
+            chmod +x gradlew
+            ./gradlew assembleRelease --stacktrace
           else
             echo "No Android/Flutter project files were found in this repository."
             echo "Expected either gradlew or pubspec.yaml in the repository root."
@@ -50,3 +58,4 @@ jobs:
           path: |
             app/build/outputs/apk/release/*.apk
             build/app/outputs/flutter-apk/*.apk
+            
