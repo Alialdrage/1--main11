@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["main", "master"]
   workflow_dispatch:
+  environment:
+  sdk: '^3.5.0'
+  
 
 jobs:
   build:
