@@ -1,50 +1,22 @@
-on:
-  push:
-    branches: ["main", "master"]
-  pull_request:
-    branches: ["main", "master"]
-  workflow_dispatch:
+name: my_app
+description: A new Flutter project.
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+publish_to: 'none'
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+version: 1.0.0+1
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: gradle
+environment:
+  sdk: '^3.5.0'
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.4'
+dependencies:
+  flutter:
+    sdk: flutter
 
-      - name: Build app
-        shell: bash
-        run: |
-          if [ -f pubspec.yaml ]; then
-            flutter pub get
-            flutter build apk --release
-          elif [ -f gradlew ]; then
-            chmod +x gradlew
-            ./gradlew assembleRelease --stacktrace
-          else
-            echo "No Android/Flutter project files were found in this repository."
-            echo "Expected either gradlew or pubspec.yaml in the repository root."
-            exit 1
-          fi
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
-      - name: Upload APK artifact
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-apk
-          path: |
-            app/build/outputs/apk/release/*.apk
-            build/app/outputs/flutter-apk/*.apk
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
