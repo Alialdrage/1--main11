@@ -2,23 +2,24 @@ name: build_apk
 
 on:
   push:
-  branches: [ main ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Setup Java
+      # إعداد جافا 17 وتفعيل الكاش لتسريع البناء ومنع خطأ exit code 1
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle' # تفعيل الكاش لملفات Gradle والاعتماديات
 
-
- branches: [ main ] أن
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -38,7 +39,7 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
