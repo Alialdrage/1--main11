@@ -2,7 +2,7 @@ name: build_apk
 
 on:
   push:
-    branches: [ main ]
+  branches: [ main ]
   workflow_dispatch:
 
 jobs:
